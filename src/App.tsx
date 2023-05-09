@@ -1,12 +1,9 @@
-import './global.css'
 import { Sidebar } from './components/Sidebar/Sidebar'
 import { Post } from './components/Post/Post'
 import { Header } from './components/Header/Header'
 import styles from './App.module.css'
 import './global.css'
 
-
-function App() {
   const posts = [
     {
     id: 1,
@@ -40,6 +37,7 @@ function App() {
   }
   ]
 
+function App() {
   return (
     <div>
       <Header />
@@ -52,9 +50,8 @@ function App() {
                <Post
                  key={post.id}
                  author={post.author}
-                 content={post.content}
+                 content ={post.content}
                  publishedAt={post.publishedAt}
-                 post={post}
                />
             )
           })}

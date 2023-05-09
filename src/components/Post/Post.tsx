@@ -1,14 +1,31 @@
-import { format, formatDistance, formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
 import { Avatar } from "../Avatar/Avatar";
 import { Comment } from "../Comment/Comment";
 
-import { useState } from "react";
+import { FormEvent, useState, ChangeEvent, InvalidEvent } from "react";
 
 import styles from "./Post.module.css";
 
-export const Post = ({ author, publishedAt, content }) => {
+interface Author {
+  name: string;
+  role: string;
+  avatarUrl: string;
+}
+
+interface Content {
+  type: 'paragraph' | 'link';
+  content: string;
+}
+
+interface PostProps {
+  author: Author;
+  publishedAt: Date;
+  content: Content[];
+}
+
+export const Post = ({ author, publishedAt, content }: PostProps) => {
   const [comments, setComments] = useState(["Post muito bacana, hein?!"]);
 
   const [newCommentText, setNewCommentText] = useState("");
@@ -26,22 +43,22 @@ export const Post = ({ author, publishedAt, content }) => {
     addSuffix: true,
   });
 
-  const handleCreateNewComment = () => {
+  const handleCreateNewComment = (event: FormEvent) => {
     event.preventDefault();
     setComments([...comments, newCommentText]);
     setNewCommentText("");
   };
 
-  const handleNewCommentChange = () => {
+  const handleNewCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.setCustomValidity("");
     setNewCommentText(event.target.value);
   };
 
-  const handleNewCommentInvalid = () => {
+  const handleNewCommentInvalid = (event: InvalidEvent<HTMLTextAreaElement>) => {
     event.target.setCustomValidity("Esse campo é obrigatório!");
   };
 
-  const deleteComment = (commentToDelete) => {
+  const deleteComment = (commentToDelete: string) => {
     const commentsWithoutDeletedOne = comments.filter((comment) => {
       return comment != commentToDelete;
     });
@@ -71,7 +88,7 @@ export const Post = ({ author, publishedAt, content }) => {
       </header>
 
       <div className={styles.content}>
-        {content.map((line) => {
+        {content.map(line => {
           if (line === "paragraph") {
             return <p key={line.content}>{line.content}</p>;
           } else if (line === "link") {
