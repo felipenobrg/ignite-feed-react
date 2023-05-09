@@ -1,16 +1,19 @@
 import { Sidebar } from './components/Sidebar/Sidebar'
-import { Post } from './components/Post/Post'
+import { Post, PostType } from './components/Post/Post'
 import { Header } from './components/Header/Header'
+
+
 import styles from './App.module.css'
+
 import './global.css'
 
-  const posts = [
+  const posts: PostType[] = [
     {
     id: 1,
     author: {
-      avatarUrl: 'https://github.com/felipenobrg.png',
-      name: 'Felipe Nóbrega',
-      role: 'Front-End Developer',
+      avatarUrl: 'https://github.com/maykbrito.png',
+      name: 'Mayk Brito',
+      role: 'Educator @RocketSeat',
     },
     content: [
      { type: 'paragraph', content: 'Fala galeraa 👋' },
@@ -49,9 +52,7 @@ function App() {
             return (
                <Post
                  key={post.id}
-                 author={post.author}
-                 content ={post.content}
-                 publishedAt={post.publishedAt}
+                 post={post}
                />
             )
           })}
